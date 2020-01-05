@@ -7,7 +7,7 @@ import { DeleteSearchComponent } from './delete-search/delete-search.component';
 const routes: Routes = [
   {path: '', redirectTo: 'register', pathMatch: 'full'},
   {path: 'register', component: RegistrationComponent},
-  {path: 'search', component: DeleteSearchComponent},
+  {path: 'view', component: DeleteSearchComponent},
 ];
 
 @NgModule({

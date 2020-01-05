@@ -8,13 +8,15 @@ import { DeleteSearchComponent } from './delete-search/delete-search.component';
 import { UserRegistrationService } from './user-registration.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { UpdateComponent } from './update/update.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
-    DeleteSearchComponent
+    DeleteSearchComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,

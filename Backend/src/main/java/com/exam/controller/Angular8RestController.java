@@ -35,7 +35,7 @@ import com.exam.service.UserInfoServiceImpl;
 @SpringBootApplication
 @RestController
 @RequestMapping("")
-@CrossOrigin
+@CrossOrigin("*")
 public class Angular8RestController {
 	
 	@Autowired
@@ -47,11 +47,6 @@ public class Angular8RestController {
 	@Autowired
 	UserInfoService userInfoService;
 	
-	@Autowired
-	InstallmentServiceImpl installmentServiceImpl;
-	
-	@Autowired
-	ApplyLoanServiceImpl applyLoanServiceImpl;
 	
 	
 	@PostMapping(value = "/save-ms-user")
@@ -84,6 +79,14 @@ public class Angular8RestController {
 		
 		return entity;
 	}
+	
+	@GetMapping("/show-ms-user-by/{id}")
+	public UserInfo getUserById(@PathVariable("id") long id){
+		System.out.println(id+"::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+		 UserInfo entity = userInfoService.getById(id);
+		
+		return entity;
+	}
 
 	@GetMapping("/show-ms-user")
 	public List<UserInfo> showUserInfo(){
@@ -94,5 +97,20 @@ public class Angular8RestController {
 		
 	}
 	
+	@PostMapping(value = "/update-ms-user/{id}")
+	public String updateUser(@RequestBody UserInfo entity, @PathVariable("id") long id) {
+		
+		System.out.println("Save UserInfo::::::::::"+entity);
+		
+			
+		UserInfo en = userInfoService.getById(id);
+		
+		en.setUpdateDate(new Date());
+		en.setFirstName(entity.getFirstName());
+		userInfoService.update(en);
+		
+		return "Hi "+ en.getUsername() +" Your's update is completed.";
+		
+	}
 
 }
