@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Employee } from '../employee';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-employee',
@@ -11,35 +12,33 @@ import { EmployeeService } from '../employee.service';
 export class UpdateEmployeeComponent implements OnInit {
 
   id: number;
-  employee: Employee;
+  submitted: number;
+  employee: Employee  = new Employee();
 
-  constructor(private route: ActivatedRoute, private router: Router,
-    private employeeService: EmployeeService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private employeeService: EmployeeService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
-    this.employee = new Employee();
-
-    this.id = this.route.snapshot.params['id'];
-
-    this.employeeService.getEmployee(this.id)
-      .subscribe(data => {
-        console.log(data)
-        this.employee = data;
-      }, error => console.log(error));
-  }
-
-  updateEmployee() {
-    this.employeeService.updateEmployee(this.id, this.employee)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.employee = new Employee();
-    this.gotoList();
+    this.employee = this.route.snapshot.params.emp ? JSON.parse(this.route.snapshot.params.emp): {};
   }
 
   onSubmit() {
-    this.updateEmployee();
-  }
-
-  gotoList() {
-    this.router.navigate(['/update-ms-user']);
+    this.employeeService.updateEmployee(this.employee).subscribe(
+      (res: any) => {
+        if(res.success){
+          this.toastr.success(res.message);
+          this.employee = new Employee();
+          this.router.navigate(['/employees']);
+        }
+      },
+      error => {
+        this.toastr.warning(error.toString());
+        console.log(error)
+      }
+    );
   }
 }

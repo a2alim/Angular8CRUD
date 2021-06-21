@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.exam.model.ApplyLoan;
+import com.exam.model.Response;
 import com.exam.model.UserInfo;
 @Repository
 public class UserInfoDaoImpl implements UserInfoDao {
@@ -17,6 +18,20 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	@Autowired
 	SessionFactory sessionFactory;
 
+	public Response saveEmp(UserInfo entity) {
+		Response rs = new Response();
+		try {
+			sessionFactory.getCurrentSession().save(entity);
+			rs.setMessage("Hi " + entity.getUsername() + " Your's registration completed.");
+			return rs;
+		} catch (HibernateException e) {
+			rs.setSuccess(false);
+			return rs;
+		}
+
+	}
+	
+	
 	@Override
 	public UserInfo save(UserInfo entity) {
 		try {
@@ -27,6 +42,8 @@ public class UserInfoDaoImpl implements UserInfoDao {
 		}
 
 	}
+	
+	
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	public UserInfo getUserByEmail(String email, String password) {

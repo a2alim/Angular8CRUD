@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.exam</groupId>
-	<artifactId>SpringBootLoginRESTAPI</artifactId>
+	<artifactId>SpringBootRESTAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SpringBootLoginRESTAPI</name>
+	<name>SpringBootRESTAPI</name>
 	<description>spring boot login example</description>
 
 	<properties>

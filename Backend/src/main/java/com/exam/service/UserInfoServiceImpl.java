@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.exam.dao.UserInfoDao;
+import com.exam.dao.UserInfoDaoImpl;
 import com.exam.model.ApplyLoan;
+import com.exam.model.Response;
 import com.exam.model.UserInfo;
 
 @Service
@@ -25,6 +27,8 @@ public class UserInfoServiceImpl implements UserDetailsService,UserInfoService {
 	@Autowired
 	UserInfoDao userInfoDao;
 	
+	@Autowired
+	UserInfoDaoImpl userInfoDaoImpl;
 	
 
 	@Override
@@ -50,6 +54,10 @@ public class UserInfoServiceImpl implements UserDetailsService,UserInfoService {
 		return userInfoDao.save(entity);
 	}
 
+	public Response saveEmp(UserInfo entity) {
+		return userInfoDaoImpl.saveEmp(entity);
+	}
+	
 	@Override
 	public UserInfo update(UserInfo entity) {		
 		return userInfoDao.update(entity);

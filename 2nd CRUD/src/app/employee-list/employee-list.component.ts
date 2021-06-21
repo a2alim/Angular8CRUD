@@ -4,6 +4,7 @@ import { EmployeeService } from "./../employee.service";
 import { Employee } from "./../employee";
 import { Component, OnInit } from "@angular/core";
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-employee-list",
@@ -13,8 +14,11 @@ import { Router } from '@angular/router';
 export class EmployeeListComponent implements OnInit {
   employees: Observable<Employee[]>;
 
-  constructor(private employeeService: EmployeeService,
-    private router: Router) {}
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
     this.reloadData();
@@ -25,20 +29,22 @@ export class EmployeeListComponent implements OnInit {
   }
 
   deleteEmployee(id: number) {
-    this.employeeService.deleteEmployee(id)
-      .subscribe(
-        data => {
-          console.log(data);
+    this.employeeService.deleteEmployee(id).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.toastr.success(res.message);
           this.reloadData();
-        },
-        error => console.log(error));
+        }
+      },
+      error => console.log(error)
+    );
   }
 
-  employeeDetails(id: number){
+  employeeDetails(id: number) {
     this.router.navigate(['details', id]);
   }
 
-  updateEmployee(id: number){
-    this.router.navigate(['update', id]);
+  updateEmployee(emp: number) {
+    this.router.navigate(['update', { 'emp': JSON.stringify(emp) }]);
   }
 }

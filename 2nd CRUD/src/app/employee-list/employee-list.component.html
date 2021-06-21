@@ -13,17 +13,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let employee of employees | async">
-          <td>{{employee.firstName}}</td>
-          <td>{{employee.lastName}}</td>
-          <td>{{employee.email}}</td>
-          <td><button (click)="deleteEmployee(employee.userId)" class="btn btn-danger">Delete</button>
-              <button (click)="updateEmployee(employee.userId)" class="btn btn-info" style="margin-left: 10px">Update</button>
-              <button (click)="employeeDetails(employee.userId)" class="btn btn-info" style="margin-left: 10px">Details</button>
+        <tr *ngFor="let emp of employees | async">
+          <td>{{emp.firstName}}</td>
+          <td>{{emp.lastName}}</td>
+          <td>{{emp.email}}</td>
+          <td>
+            <button (click)="deleteEmployee(emp.userId)" class="btn btn-danger">Delete</button>
+            <button (click)="updateEmployee(emp)" class="btn btn-info"
+              style="margin-left: 10px">Update</button>
+            <button (click)="employeeDetails(emp.userId)" class="btn btn-info"
+              style="margin-left: 10px">Details</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-

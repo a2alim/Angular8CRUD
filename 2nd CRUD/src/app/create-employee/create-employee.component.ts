@@ -2,6 +2,7 @@ import { EmployeeService } from '../employee.service';
 import { Employee } from '../employee';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-employee',
@@ -13,8 +14,11 @@ export class CreateEmployeeComponent implements OnInit {
   employee: Employee = new Employee();
   submitted = false;
 
-  constructor(private employeeService: EmployeeService,
-    private router: Router) { }
+  constructor(
+    private employeeService: EmployeeService,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
   }
@@ -25,10 +29,18 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   save() {
-    this.employeeService.createEmployee(this.employee)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.employee = new Employee();
-    this.gotoList();
+    this.employeeService.createEmployee(this.employee).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.toastr.success(res.message);
+          this.employee = new Employee();
+          this.gotoList();
+        }
+      },
+      error => {
+        console.log(error)
+      }
+    );
   }
 
   onSubmit() {
@@ -37,6 +49,6 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   gotoList() {
-    this.router.navigate(['/save-ms-user']);
+    this.router.navigate(['/employees']);
   }
 }
